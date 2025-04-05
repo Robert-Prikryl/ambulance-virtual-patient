@@ -20,6 +20,8 @@ export namespace Components {
          */
         "middle": string;
     }
+    interface XprikrylVpList {
+    }
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -28,8 +30,15 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLXprikrylVpListElement extends Components.XprikrylVpList, HTMLStencilElement {
+    }
+    var HTMLXprikrylVpListElement: {
+        prototype: HTMLXprikrylVpListElement;
+        new (): HTMLXprikrylVpListElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "xprikryl-vp-list": HTMLXprikrylVpListElement;
     }
 }
 declare namespace LocalJSX {
@@ -47,8 +56,11 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface XprikrylVpList {
+    }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "xprikryl-vp-list": XprikrylVpList;
     }
 }
 export { LocalJSX as JSX };
@@ -56,6 +68,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "xprikryl-vp-list": LocalJSX.XprikrylVpList & JSXBase.HTMLAttributes<HTMLXprikrylVpListElement>;
         }
     }
 }

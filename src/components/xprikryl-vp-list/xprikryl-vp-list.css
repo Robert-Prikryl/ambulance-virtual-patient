@@ -1,0 +1,9 @@
+:host {
+  display: block;
+}
+
+.difficulty-indicator {
+  font-weight: bold;
+  color: var(--md-sys-color-primary);
+  text-transform: capitalize;
+}
