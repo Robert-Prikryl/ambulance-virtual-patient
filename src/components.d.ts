@@ -5,6 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { VirtualPatient } from "./api/ambulance-virtual-patient";
+export { VirtualPatient } from "./api/ambulance-virtual-patient";
 export namespace Components {
     interface MyComponent {
         /**
@@ -20,8 +22,23 @@ export namespace Components {
          */
         "middle": string;
     }
-    interface XprikrylVpList {
+    interface XprikrylVpCreate {
+        "apiBase": string;
     }
+    interface XprikrylVpList {
+        "apiBase": string;
+    }
+    interface XprikrylVpManager {
+        "apiBase": string;
+    }
+}
+export interface XprikrylVpCreateCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXprikrylVpCreateElement;
+}
+export interface XprikrylVpListCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXprikrylVpListElement;
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -30,15 +47,51 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLXprikrylVpCreateElementEventMap {
+        "patient-created": VirtualPatient;
+    }
+    interface HTMLXprikrylVpCreateElement extends Components.XprikrylVpCreate, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXprikrylVpCreateElementEventMap>(type: K, listener: (this: HTMLXprikrylVpCreateElement, ev: XprikrylVpCreateCustomEvent<HTMLXprikrylVpCreateElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXprikrylVpCreateElementEventMap>(type: K, listener: (this: HTMLXprikrylVpCreateElement, ev: XprikrylVpCreateCustomEvent<HTMLXprikrylVpCreateElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLXprikrylVpCreateElement: {
+        prototype: HTMLXprikrylVpCreateElement;
+        new (): HTMLXprikrylVpCreateElement;
+    };
+    interface HTMLXprikrylVpListElementEventMap {
+        "entry-clicked": string;
+    }
     interface HTMLXprikrylVpListElement extends Components.XprikrylVpList, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXprikrylVpListElementEventMap>(type: K, listener: (this: HTMLXprikrylVpListElement, ev: XprikrylVpListCustomEvent<HTMLXprikrylVpListElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXprikrylVpListElementEventMap>(type: K, listener: (this: HTMLXprikrylVpListElement, ev: XprikrylVpListCustomEvent<HTMLXprikrylVpListElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
     }
     var HTMLXprikrylVpListElement: {
         prototype: HTMLXprikrylVpListElement;
         new (): HTMLXprikrylVpListElement;
     };
+    interface HTMLXprikrylVpManagerElement extends Components.XprikrylVpManager, HTMLStencilElement {
+    }
+    var HTMLXprikrylVpManagerElement: {
+        prototype: HTMLXprikrylVpManagerElement;
+        new (): HTMLXprikrylVpManagerElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "xprikryl-vp-create": HTMLXprikrylVpCreateElement;
         "xprikryl-vp-list": HTMLXprikrylVpListElement;
+        "xprikryl-vp-manager": HTMLXprikrylVpManagerElement;
     }
 }
 declare namespace LocalJSX {
@@ -56,11 +109,22 @@ declare namespace LocalJSX {
          */
         "middle"?: string;
     }
+    interface XprikrylVpCreate {
+        "apiBase"?: string;
+        "onPatient-created"?: (event: XprikrylVpCreateCustomEvent<VirtualPatient>) => void;
+    }
     interface XprikrylVpList {
+        "apiBase"?: string;
+        "onEntry-clicked"?: (event: XprikrylVpListCustomEvent<string>) => void;
+    }
+    interface XprikrylVpManager {
+        "apiBase"?: string;
     }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "xprikryl-vp-create": XprikrylVpCreate;
         "xprikryl-vp-list": XprikrylVpList;
+        "xprikryl-vp-manager": XprikrylVpManager;
     }
 }
 export { LocalJSX as JSX };
@@ -68,7 +132,9 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "xprikryl-vp-create": LocalJSX.XprikrylVpCreate & JSXBase.HTMLAttributes<HTMLXprikrylVpCreateElement>;
             "xprikryl-vp-list": LocalJSX.XprikrylVpList & JSXBase.HTMLAttributes<HTMLXprikrylVpListElement>;
+            "xprikryl-vp-manager": LocalJSX.XprikrylVpManager & JSXBase.HTMLAttributes<HTMLXprikrylVpManagerElement>;
         }
     }
 }

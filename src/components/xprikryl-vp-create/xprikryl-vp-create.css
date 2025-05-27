@@ -1,0 +1,105 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #f4f6fb;
+}
+
+form {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(60, 72, 88, 0.15);
+  padding: 2.5rem 2rem 2rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+label {
+  font-weight: 600;
+  color: #222b45;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.form-input {
+  padding: 0.9rem 1rem;
+  border: 1.5px solid #e0e6ed;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  background: #f7f9fc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px #2563eb22;
+  background: #fff;
+}
+
+select.form-input {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg fill='gray' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.5rem;
+  padding-right: 2.5rem;
+}
+
+textarea.form-input {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.error-message {
+  color: #d32f2f;
+  margin: 0.5rem 0 0.5rem 0;
+  padding: 0.75rem 1rem;
+  background: #ffebee;
+  border-radius: 6px;
+  font-size: 0.97rem;
+  border: 1px solid #ffcdd2;
+}
+
+.submit-button {
+  align-self: flex-end;
+  margin-top: 0.5rem;
+  padding: 0.85rem 2.2rem;
+  background: linear-gradient(90deg, #2563eb 0%, #1e40af 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+  letter-spacing: 0.03em;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+
+.submit-button:hover, .submit-button:focus {
+  background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.13);
+  transform: translateY(-2px) scale(1.03);
+}
+
+@media (max-width: 600px) {
+  form {
+    padding: 1.2rem 0.5rem 1.5rem 0.5rem;
+    max-width: 98vw;
+  }
+  .submit-button {
+    width: 100%;
+    align-self: stretch;
+  }
+}
