@@ -9,6 +9,7 @@ export class XprikrylVpManager {
   @Prop() apiBase: string;
   @State() showCreateForm: boolean = false;
   @State() selectedPatientId: string | null = null;
+  @State() userRole: string | null = null;
 
   componentWillLoad() {
     // Check URL on initial load
@@ -22,16 +23,22 @@ export class XprikrylVpManager {
 
   private handleUrlChange() {
     const path = window.location.pathname;
-    if (path.includes('/create')) {
+    if (path === '/' || path === '') {
+      // Root path - show login if no role selected
+      if (this.userRole) {
+        window.location.href = '/list';
+      }
+    } else if (path === '/list') {
+      // List path - show list view
+      this.showCreateForm = false;
+      this.selectedPatientId = null;
+    } else if (path.includes('/create')) {
       this.showCreateForm = true;
       this.selectedPatientId = null;
     } else if (path.includes('/patient/')) {
       const id = path.split('/patient/')[1];
       this.showCreateForm = false;
       this.selectedPatientId = id;
-    } else {
-      this.showCreateForm = false;
-      this.selectedPatientId = null;
     }
   }
 
@@ -39,35 +46,52 @@ export class XprikrylVpManager {
     if (id === "@new") {
       this.showCreateForm = true;
       this.selectedPatientId = null;
-      window.history.pushState({}, '', '/create');
+      window.location.href = '/create';
     } else {
       this.showCreateForm = false;
       this.selectedPatientId = id;
-      window.history.pushState({}, '', `/patient/${id}`);
+      window.location.href = `/patient/${id}`;
     }
   }
 
   private handlePatientCreated() {
     this.showCreateForm = false;
     this.selectedPatientId = null;
-    window.history.pushState({}, '', '/');
+    window.location.href = '/list';
   }
 
   private handleBack() {
     window.history.back();
   }
 
+  private handleRoleSelected(event: CustomEvent<string>) {
+    this.userRole = event.detail;
+    // Redirect to list view after role selection
+    console.log(this.userRole);
+    window.location.href = '/list';
+  }
+
   render() {
+    const path = window.location.pathname;
+    if (path === '/' || path === '') {
+      return (
+        <Host>
+          <xprikryl-vp-login 
+            api-base={this.apiBase}
+            onRoleSelected={(e) => this.handleRoleSelected(e)}>
+          </xprikryl-vp-login>
+        </Host>
+      );
+    }
+
     return (
       <Host>
-        {this.showCreateForm && (
-          <md-filled-button 
-            class="back-button"
-            onClick={() => this.handleBack()}>
-            <md-icon slot="icon">arrow_back</md-icon>
-            Back
-          </md-filled-button>
-        )}
+        <md-filled-button 
+          class="back-button"
+          onClick={() => this.handleBack()}>
+          <md-icon slot="icon">arrow_back</md-icon>
+          Back
+        </md-filled-button>
         {!this.showCreateForm ? (
           <xprikryl-vp-list 
             api-base={this.apiBase}

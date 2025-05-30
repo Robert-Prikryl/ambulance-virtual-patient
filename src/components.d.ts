@@ -28,6 +28,9 @@ export namespace Components {
     interface XprikrylVpList {
         "apiBase": string;
     }
+    interface XprikrylVpLogin {
+        "apiBase": string;
+    }
     interface XprikrylVpManager {
         "apiBase": string;
     }
@@ -39,6 +42,10 @@ export interface XprikrylVpCreateCustomEvent<T> extends CustomEvent<T> {
 export interface XprikrylVpListCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLXprikrylVpListElement;
+}
+export interface XprikrylVpLoginCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXprikrylVpLoginElement;
 }
 declare global {
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
@@ -81,6 +88,23 @@ declare global {
         prototype: HTMLXprikrylVpListElement;
         new (): HTMLXprikrylVpListElement;
     };
+    interface HTMLXprikrylVpLoginElementEventMap {
+        "roleSelected": string;
+    }
+    interface HTMLXprikrylVpLoginElement extends Components.XprikrylVpLogin, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXprikrylVpLoginElementEventMap>(type: K, listener: (this: HTMLXprikrylVpLoginElement, ev: XprikrylVpLoginCustomEvent<HTMLXprikrylVpLoginElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXprikrylVpLoginElementEventMap>(type: K, listener: (this: HTMLXprikrylVpLoginElement, ev: XprikrylVpLoginCustomEvent<HTMLXprikrylVpLoginElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLXprikrylVpLoginElement: {
+        prototype: HTMLXprikrylVpLoginElement;
+        new (): HTMLXprikrylVpLoginElement;
+    };
     interface HTMLXprikrylVpManagerElement extends Components.XprikrylVpManager, HTMLStencilElement {
     }
     var HTMLXprikrylVpManagerElement: {
@@ -91,6 +115,7 @@ declare global {
         "my-component": HTMLMyComponentElement;
         "xprikryl-vp-create": HTMLXprikrylVpCreateElement;
         "xprikryl-vp-list": HTMLXprikrylVpListElement;
+        "xprikryl-vp-login": HTMLXprikrylVpLoginElement;
         "xprikryl-vp-manager": HTMLXprikrylVpManagerElement;
     }
 }
@@ -117,6 +142,10 @@ declare namespace LocalJSX {
         "apiBase"?: string;
         "onEntry-clicked"?: (event: XprikrylVpListCustomEvent<string>) => void;
     }
+    interface XprikrylVpLogin {
+        "apiBase"?: string;
+        "onRoleSelected"?: (event: XprikrylVpLoginCustomEvent<string>) => void;
+    }
     interface XprikrylVpManager {
         "apiBase"?: string;
     }
@@ -124,6 +153,7 @@ declare namespace LocalJSX {
         "my-component": MyComponent;
         "xprikryl-vp-create": XprikrylVpCreate;
         "xprikryl-vp-list": XprikrylVpList;
+        "xprikryl-vp-login": XprikrylVpLogin;
         "xprikryl-vp-manager": XprikrylVpManager;
     }
 }
@@ -134,6 +164,7 @@ declare module "@stencil/core" {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "xprikryl-vp-create": LocalJSX.XprikrylVpCreate & JSXBase.HTMLAttributes<HTMLXprikrylVpCreateElement>;
             "xprikryl-vp-list": LocalJSX.XprikrylVpList & JSXBase.HTMLAttributes<HTMLXprikrylVpListElement>;
+            "xprikryl-vp-login": LocalJSX.XprikrylVpLogin & JSXBase.HTMLAttributes<HTMLXprikrylVpLoginElement>;
             "xprikryl-vp-manager": LocalJSX.XprikrylVpManager & JSXBase.HTMLAttributes<HTMLXprikrylVpManagerElement>;
         }
     }
