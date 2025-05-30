@@ -48,6 +48,14 @@ export class XprikrylVpManager {
     window.location.href = '/list';
   }
 
+  private handlePatientUpdated() {
+    window.location.href = '/list';
+  }
+
+  private handlePatientDeleted() {
+    window.location.href = '/list';
+  }
+
   render() {
     const path = window.location.pathname;
 
@@ -93,7 +101,8 @@ export class XprikrylVpManager {
             Back
           </md-filled-button>
           <xprikryl-vp-create 
-            api-base={this.apiBase}>
+            api-base={this.apiBase}
+            onPatient-created={() => this.handlePatientUpdated()}>
           </xprikryl-vp-create>
         </Host>
       );
@@ -114,7 +123,9 @@ export class XprikrylVpManager {
             <xprikryl-vp-detail-editor
               api-base={this.apiBase}
               patient-id={patientId}
-              user-role={this.userRole}>
+              user-role={this.userRole}
+              onPatient-updated={() => this.handlePatientUpdated()}
+              onPatient-deleted={() => this.handlePatientDeleted()}>
             </xprikryl-vp-detail-editor>
           ) : (
             <xprikryl-vp-detail

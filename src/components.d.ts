@@ -94,6 +94,7 @@ declare global {
     };
     interface HTMLXprikrylVpDetailEditorElementEventMap {
         "patientUpdated": any;
+        "patientDeleted": void;
     }
     interface HTMLXprikrylVpDetailEditorElement extends Components.XprikrylVpDetailEditor, HTMLStencilElement {
         addEventListener<K extends keyof HTMLXprikrylVpDetailEditorElementEventMap>(type: K, listener: (this: HTMLXprikrylVpDetailEditorElement, ev: XprikrylVpDetailEditorCustomEvent<HTMLXprikrylVpDetailEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -185,6 +186,7 @@ declare namespace LocalJSX {
     }
     interface XprikrylVpDetailEditor {
         "apiBase"?: string;
+        "onPatientDeleted"?: (event: XprikrylVpDetailEditorCustomEvent<void>) => void;
         "onPatientUpdated"?: (event: XprikrylVpDetailEditorCustomEvent<any>) => void;
         "patientId"?: string;
         "userRole"?: string;

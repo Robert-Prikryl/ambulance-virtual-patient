@@ -13,6 +13,7 @@ export class XprikrylVpDetailEditor {
   @State() patient: any = null;
   @State() errorMessage: string = '';
   @Event() patientUpdated: EventEmitter<any>;
+  @Event() patientDeleted: EventEmitter<void>;
 
   async componentWillLoad() {
     try {
@@ -52,8 +53,29 @@ export class XprikrylVpDetailEditor {
       
       this.patient = updatedPatient;
       this.patientUpdated.emit(updatedPatient);
+      window.location.href = '/list';
     } catch (err) {
       this.errorMessage = 'Failed to update patient';
+      console.error(err);
+    }
+  };
+
+  private handleDelete = async () => {
+    if (!confirm('Are you sure you want to delete this patient?')) {
+      return;
+    }
+
+    try {
+      const config = new Configuration({ basePath: this.apiBase });
+      const api = new VirtualPatientListApi(config);
+      await api.deleteVirtualPatient({
+        virtualPatientId: this.patientId
+      });
+      
+      this.patientDeleted.emit();
+      window.location.href = '/list';
+    } catch (err) {
+      this.errorMessage = 'Failed to delete patient';
       console.error(err);
     }
   };
@@ -116,6 +138,12 @@ export class XprikrylVpDetailEditor {
               </md-filled-text-field>
 
               <div class="button-container">
+                <md-filled-button 
+                  type="button"
+                  onClick={this.handleDelete}>
+                  <md-icon slot="icon">delete</md-icon>
+                  Delete Patient
+                </md-filled-button>
                 <md-filled-button type="submit">
                   Update Patient
                 </md-filled-button>

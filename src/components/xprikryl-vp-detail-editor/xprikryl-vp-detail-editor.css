@@ -14,7 +14,6 @@
 
 h2 {
   margin: 0 0 24px 0;
-  color: var(--md-sys-color-on-surface);
 }
 
 .divider {
@@ -40,34 +39,27 @@ md-filled-text-field[type="textarea"] {
 
 .label {
   font-weight: 500;
-  color: var(--md-sys-color-on-surface-variant);
   min-width: 120px;
-}
-
-.value {
-  color: var(--md-sys-color-on-surface);
 }
 
 .teacher-notes {
   margin-top: 32px;
   padding-top: 16px;
-  border-top: 1px solid var(--md-sys-color-outline);
 }
 
 .button-container {
   display: flex;
   justify-content: flex-end;
+  gap: 16px;
   margin-top: 24px;
 }
 
 .error-message {
-  color: var(--md-sys-color-error);
   padding: 16px;
   text-align: center;
 }
 
 .loading {
   text-align: center;
-  color: var(--md-sys-color-on-surface-variant);
   padding: 32px;
 }
