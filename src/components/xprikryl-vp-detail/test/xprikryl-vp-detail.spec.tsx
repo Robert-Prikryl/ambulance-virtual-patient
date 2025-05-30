@@ -1,6 +1,5 @@
 import { newSpecPage } from '@stencil/core/testing';
 import { XprikrylVpDetail } from '../xprikryl-vp-detail';
-import fetchMock from 'jest-fetch-mock';
 
 describe('xprikryl-vp-detail', () => {
   const mockPatient = {

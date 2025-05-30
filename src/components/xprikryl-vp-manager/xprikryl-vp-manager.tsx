@@ -7,8 +7,6 @@ import { Component, Host, Prop, State, h, Listen } from '@stencil/core';
 })
 export class XprikrylVpManager {
   @Prop() apiBase: string;
-  @State() showCreateForm: boolean = false;
-  @State() selectedPatientId: string | null = null;
   @State() userRole: string | null = null;
 
   componentWillLoad() {
@@ -17,8 +15,6 @@ export class XprikrylVpManager {
     if (savedRole) {
       this.userRole = savedRole;
     }
-    // Check URL on initial load
-    this.handleUrlChange();
   }
 
   @Listen('popstate', { target: 'window' })
@@ -33,40 +29,16 @@ export class XprikrylVpManager {
       if (this.userRole && path !== '/') {
         window.location.href = '/list';
       }
-    } else if (path === '/list') {
-      // List path - show list view
-      this.showCreateForm = false;
-      this.selectedPatientId = null;
-    } else if (path.includes('/create')) {
-      this.showCreateForm = true;
-      this.selectedPatientId = null;
-    } else if (path.includes('/patient/')) {
-      const id = path.split('/patient/')[1];
-      this.showCreateForm = false;
-      this.selectedPatientId = id;
     }
   }
 
-  private handleEntryClick(id: string) {
+  private handleEntryClick(event: CustomEvent<string>) {
+    const id = event.detail;
     if (id === "@new") {
-      this.showCreateForm = true;
-      this.selectedPatientId = null;
       window.location.href = '/create';
     } else {
-      this.showCreateForm = false;
-      this.selectedPatientId = id;
       window.location.href = `/patient/${id}`;
     }
-  }
-
-  private handlePatientCreated() {
-    this.showCreateForm = false;
-    this.selectedPatientId = null;
-    window.location.href = '/list';
-  }
-
-  private handleBack() {
-    window.history.back();
   }
 
   private handleRoleSelected(event: CustomEvent<string>) {
@@ -78,6 +50,8 @@ export class XprikrylVpManager {
 
   render() {
     const path = window.location.pathname;
+
+    // Show login if no role selected
     if (path === '/' || path === '') {
       return (
         <Host>
@@ -89,32 +63,78 @@ export class XprikrylVpManager {
       );
     }
 
-    return (
-      <Host>
-        <md-filled-button 
-          class="back-button"
-          onClick={() => this.handleBack()}>
-          <md-icon slot="icon">arrow_back</md-icon>
-          Back
-        </md-filled-button>
-        {!this.showCreateForm && !this.selectedPatientId ? (
+    // Show list view
+    if (path === '/list') {
+      return (
+        <Host>
+          <md-filled-button 
+            class="back-button"
+            onClick={() => window.history.back()}>
+            <md-icon slot="icon">arrow_back</md-icon>
+            Back
+          </md-filled-button>
           <xprikryl-vp-list 
             api-base={this.apiBase}
             userRole={this.userRole}
-            onEntry-clicked={(event) => this.handleEntryClick(event.detail)}>
+            onEntry-clicked={(e) => this.handleEntryClick(e)}>
           </xprikryl-vp-list>
-        ) : this.showCreateForm ? (
+        </Host>
+      );
+    }
+
+    // Show create form
+    if (path === '/create') {
+      return (
+        <Host>
+          <md-filled-button 
+            class="back-button"
+            onClick={() => window.history.back()}>
+            <md-icon slot="icon">arrow_back</md-icon>
+            Back
+          </md-filled-button>
           <xprikryl-vp-create 
-            api-base={this.apiBase}
-            onPatient-created={() => this.handlePatientCreated()}>
+            api-base={this.apiBase}>
           </xprikryl-vp-create>
-        ) : (
-          <xprikryl-vp-detail
-            api-base={this.apiBase}
-            patient-id={this.selectedPatientId}
-            user-role={this.userRole}>
-          </xprikryl-vp-detail>
-        )}
+        </Host>
+      );
+    }
+
+    // Show patient detail/editor based on role
+    if (path.includes('/patient/')) {
+      const patientId = path.split('/patient/')[1];
+      return (
+        <Host>
+          <md-filled-button 
+            class="back-button"
+            onClick={() => window.history.back()}>
+            <md-icon slot="icon">arrow_back</md-icon>
+            Back
+          </md-filled-button>
+          {this.userRole === 'teacher' ? (
+            <xprikryl-vp-detail-editor
+              api-base={this.apiBase}
+              patient-id={patientId}
+              user-role={this.userRole}>
+            </xprikryl-vp-detail-editor>
+          ) : (
+            <xprikryl-vp-detail
+              api-base={this.apiBase}
+              patient-id={patientId}
+              user-role={this.userRole}>
+            </xprikryl-vp-detail>
+          )}
+        </Host>
+      );
+    }
+
+    // Fallback to list view
+    return (
+      <Host>
+        <xprikryl-vp-list 
+          api-base={this.apiBase}
+          userRole={this.userRole}
+          onEntry-clicked={(e) => this.handleEntryClick(e)}>
+        </xprikryl-vp-list>
       </Host>
     );
   }

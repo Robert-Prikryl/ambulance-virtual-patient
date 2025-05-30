@@ -30,6 +30,11 @@ export namespace Components {
         "patientId": string;
         "userRole": string;
     }
+    interface XprikrylVpDetailEditor {
+        "apiBase": string;
+        "patientId": string;
+        "userRole": string;
+    }
     interface XprikrylVpList {
         "apiBase": string;
         "userRole": string;
@@ -44,6 +49,10 @@ export namespace Components {
 export interface XprikrylVpCreateCustomEvent<T> extends CustomEvent<T> {
     detail: T;
     target: HTMLXprikrylVpCreateElement;
+}
+export interface XprikrylVpDetailEditorCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLXprikrylVpDetailEditorElement;
 }
 export interface XprikrylVpListCustomEvent<T> extends CustomEvent<T> {
     detail: T;
@@ -82,6 +91,23 @@ declare global {
     var HTMLXprikrylVpDetailElement: {
         prototype: HTMLXprikrylVpDetailElement;
         new (): HTMLXprikrylVpDetailElement;
+    };
+    interface HTMLXprikrylVpDetailEditorElementEventMap {
+        "patientUpdated": any;
+    }
+    interface HTMLXprikrylVpDetailEditorElement extends Components.XprikrylVpDetailEditor, HTMLStencilElement {
+        addEventListener<K extends keyof HTMLXprikrylVpDetailEditorElementEventMap>(type: K, listener: (this: HTMLXprikrylVpDetailEditorElement, ev: XprikrylVpDetailEditorCustomEvent<HTMLXprikrylVpDetailEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+        addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLXprikrylVpDetailEditorElementEventMap>(type: K, listener: (this: HTMLXprikrylVpDetailEditorElement, ev: XprikrylVpDetailEditorCustomEvent<HTMLXprikrylVpDetailEditorElementEventMap[K]>) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof DocumentEventMap>(type: K, listener: (this: Document, ev: DocumentEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+        removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
+    }
+    var HTMLXprikrylVpDetailEditorElement: {
+        prototype: HTMLXprikrylVpDetailEditorElement;
+        new (): HTMLXprikrylVpDetailEditorElement;
     };
     interface HTMLXprikrylVpListElementEventMap {
         "entry-clicked": string;
@@ -127,6 +153,7 @@ declare global {
         "my-component": HTMLMyComponentElement;
         "xprikryl-vp-create": HTMLXprikrylVpCreateElement;
         "xprikryl-vp-detail": HTMLXprikrylVpDetailElement;
+        "xprikryl-vp-detail-editor": HTMLXprikrylVpDetailEditorElement;
         "xprikryl-vp-list": HTMLXprikrylVpListElement;
         "xprikryl-vp-login": HTMLXprikrylVpLoginElement;
         "xprikryl-vp-manager": HTMLXprikrylVpManagerElement;
@@ -156,6 +183,12 @@ declare namespace LocalJSX {
         "patientId"?: string;
         "userRole"?: string;
     }
+    interface XprikrylVpDetailEditor {
+        "apiBase"?: string;
+        "onPatientUpdated"?: (event: XprikrylVpDetailEditorCustomEvent<any>) => void;
+        "patientId"?: string;
+        "userRole"?: string;
+    }
     interface XprikrylVpList {
         "apiBase"?: string;
         "onEntry-clicked"?: (event: XprikrylVpListCustomEvent<string>) => void;
@@ -172,6 +205,7 @@ declare namespace LocalJSX {
         "my-component": MyComponent;
         "xprikryl-vp-create": XprikrylVpCreate;
         "xprikryl-vp-detail": XprikrylVpDetail;
+        "xprikryl-vp-detail-editor": XprikrylVpDetailEditor;
         "xprikryl-vp-list": XprikrylVpList;
         "xprikryl-vp-login": XprikrylVpLogin;
         "xprikryl-vp-manager": XprikrylVpManager;
@@ -184,6 +218,7 @@ declare module "@stencil/core" {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "xprikryl-vp-create": LocalJSX.XprikrylVpCreate & JSXBase.HTMLAttributes<HTMLXprikrylVpCreateElement>;
             "xprikryl-vp-detail": LocalJSX.XprikrylVpDetail & JSXBase.HTMLAttributes<HTMLXprikrylVpDetailElement>;
+            "xprikryl-vp-detail-editor": LocalJSX.XprikrylVpDetailEditor & JSXBase.HTMLAttributes<HTMLXprikrylVpDetailEditorElement>;
             "xprikryl-vp-list": LocalJSX.XprikrylVpList & JSXBase.HTMLAttributes<HTMLXprikrylVpListElement>;
             "xprikryl-vp-login": LocalJSX.XprikrylVpLogin & JSXBase.HTMLAttributes<HTMLXprikrylVpLoginElement>;
             "xprikryl-vp-manager": LocalJSX.XprikrylVpManager & JSXBase.HTMLAttributes<HTMLXprikrylVpManagerElement>;
