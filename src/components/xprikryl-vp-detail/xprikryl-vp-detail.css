@@ -1,0 +1,66 @@
+:host {
+  display: block;
+  padding: 20px;
+}
+
+.patient-details {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.card-content {
+  padding: 24px;
+}
+
+h2 {
+  margin: 0 0 24px 0;
+  color: var(--md-sys-color-on-surface);
+}
+
+.divider {
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+md-filled-text-field {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+md-filled-text-field[type="textarea"] {
+  --md-filled-text-field-container-height: 120px;
+}
+
+.detail-item {
+  margin-bottom: 16px;
+  display: flex;
+  gap: 16px;
+}
+
+.label {
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
+  min-width: 120px;
+}
+
+.value {
+  color: var(--md-sys-color-on-surface);
+}
+
+.teacher-notes {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--md-sys-color-outline);
+}
+
+.error-message {
+  color: var(--md-sys-color-error);
+  padding: 16px;
+  text-align: center;
+}
+
+.loading {
+  text-align: center;
+  color: var(--md-sys-color-on-surface-variant);
+  padding: 32px;
+}

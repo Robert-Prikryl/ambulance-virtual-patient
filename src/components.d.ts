@@ -25,8 +25,14 @@ export namespace Components {
     interface XprikrylVpCreate {
         "apiBase": string;
     }
+    interface XprikrylVpDetail {
+        "apiBase": string;
+        "patientId": string;
+        "userRole": string;
+    }
     interface XprikrylVpList {
         "apiBase": string;
+        "userRole": string;
     }
     interface XprikrylVpLogin {
         "apiBase": string;
@@ -71,6 +77,12 @@ declare global {
         prototype: HTMLXprikrylVpCreateElement;
         new (): HTMLXprikrylVpCreateElement;
     };
+    interface HTMLXprikrylVpDetailElement extends Components.XprikrylVpDetail, HTMLStencilElement {
+    }
+    var HTMLXprikrylVpDetailElement: {
+        prototype: HTMLXprikrylVpDetailElement;
+        new (): HTMLXprikrylVpDetailElement;
+    };
     interface HTMLXprikrylVpListElementEventMap {
         "entry-clicked": string;
     }
@@ -114,6 +126,7 @@ declare global {
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
         "xprikryl-vp-create": HTMLXprikrylVpCreateElement;
+        "xprikryl-vp-detail": HTMLXprikrylVpDetailElement;
         "xprikryl-vp-list": HTMLXprikrylVpListElement;
         "xprikryl-vp-login": HTMLXprikrylVpLoginElement;
         "xprikryl-vp-manager": HTMLXprikrylVpManagerElement;
@@ -138,9 +151,15 @@ declare namespace LocalJSX {
         "apiBase"?: string;
         "onPatient-created"?: (event: XprikrylVpCreateCustomEvent<VirtualPatient>) => void;
     }
+    interface XprikrylVpDetail {
+        "apiBase"?: string;
+        "patientId"?: string;
+        "userRole"?: string;
+    }
     interface XprikrylVpList {
         "apiBase"?: string;
         "onEntry-clicked"?: (event: XprikrylVpListCustomEvent<string>) => void;
+        "userRole"?: string;
     }
     interface XprikrylVpLogin {
         "apiBase"?: string;
@@ -152,6 +171,7 @@ declare namespace LocalJSX {
     interface IntrinsicElements {
         "my-component": MyComponent;
         "xprikryl-vp-create": XprikrylVpCreate;
+        "xprikryl-vp-detail": XprikrylVpDetail;
         "xprikryl-vp-list": XprikrylVpList;
         "xprikryl-vp-login": XprikrylVpLogin;
         "xprikryl-vp-manager": XprikrylVpManager;
@@ -163,6 +183,7 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "xprikryl-vp-create": LocalJSX.XprikrylVpCreate & JSXBase.HTMLAttributes<HTMLXprikrylVpCreateElement>;
+            "xprikryl-vp-detail": LocalJSX.XprikrylVpDetail & JSXBase.HTMLAttributes<HTMLXprikrylVpDetailElement>;
             "xprikryl-vp-list": LocalJSX.XprikrylVpList & JSXBase.HTMLAttributes<HTMLXprikrylVpListElement>;
             "xprikryl-vp-login": LocalJSX.XprikrylVpLogin & JSXBase.HTMLAttributes<HTMLXprikrylVpLoginElement>;
             "xprikryl-vp-manager": LocalJSX.XprikrylVpManager & JSXBase.HTMLAttributes<HTMLXprikrylVpManagerElement>;

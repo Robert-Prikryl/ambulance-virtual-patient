@@ -31,7 +31,6 @@ md-list-item:hover {
   --md-filled-icon-button-container-color: #2196f3;
   --md-filled-icon-button-icon-color: white;
   --md-filled-icon-button-hover-container-color: #1976d2;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .difficulty-indicator {

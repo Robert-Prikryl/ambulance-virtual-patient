@@ -86,7 +86,7 @@ describe('xprikryl-vp-list', () => {
   it('renders edit icon for each patient', async () => {
     const page = await newSpecPage({
       components: [XprikrylVpList],
-      html: `<xprikryl-vp-list></xprikryl-vp-list>`,
+      html: `<xprikryl-vp-list user-role="teacher"></xprikryl-vp-list>`,
     });
 
     await page.waitForChanges();
@@ -97,6 +97,24 @@ describe('xprikryl-vp-list', () => {
     expect(editIcons.length).toBe(3);
     editIcons.forEach(icon => {
       expect(icon.textContent).toBe('edit');
+      expect(icon.getAttribute('slot')).toBe('end');
+    });
+  });
+
+  it('renders arrow_forward icon for each patient', async () => {
+    const page = await newSpecPage({
+      components: [XprikrylVpList],
+      html: `<xprikryl-vp-list user-role="student"></xprikryl-vp-list>`,
+    });
+
+    await page.waitForChanges();
+
+    // Select only the edit icons (those with slot="end")
+    const editIcons = page.root.shadowRoot.querySelectorAll('md-icon[slot="end"]');
+    
+    expect(editIcons.length).toBe(3);
+    editIcons.forEach(icon => {
+      expect(icon.textContent).toBe('arrow_forward');
       expect(icon.getAttribute('slot')).toBe('end');
     });
   });

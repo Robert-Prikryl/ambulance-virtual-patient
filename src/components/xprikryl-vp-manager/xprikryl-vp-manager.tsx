@@ -12,6 +12,11 @@ export class XprikrylVpManager {
   @State() userRole: string | null = null;
 
   componentWillLoad() {
+    // Load user role from localStorage if it exists
+    const savedRole = localStorage.getItem('userRole');
+    if (savedRole) {
+      this.userRole = savedRole;
+    }
     // Check URL on initial load
     this.handleUrlChange();
   }
@@ -25,7 +30,7 @@ export class XprikrylVpManager {
     const path = window.location.pathname;
     if (path === '/' || path === '') {
       // Root path - show login if no role selected
-      if (this.userRole) {
+      if (this.userRole && path !== '/') {
         window.location.href = '/list';
       }
     } else if (path === '/list') {
@@ -66,8 +71,8 @@ export class XprikrylVpManager {
 
   private handleRoleSelected(event: CustomEvent<string>) {
     this.userRole = event.detail;
-    // Redirect to list view after role selection
-    console.log(this.userRole);
+    // Save role to localStorage
+    localStorage.setItem('userRole', event.detail);
     window.location.href = '/list';
   }
 
@@ -92,16 +97,23 @@ export class XprikrylVpManager {
           <md-icon slot="icon">arrow_back</md-icon>
           Back
         </md-filled-button>
-        {!this.showCreateForm ? (
+        {!this.showCreateForm && !this.selectedPatientId ? (
           <xprikryl-vp-list 
             api-base={this.apiBase}
+            userRole={this.userRole}
             onEntry-clicked={(event) => this.handleEntryClick(event.detail)}>
           </xprikryl-vp-list>
-        ) : (
+        ) : this.showCreateForm ? (
           <xprikryl-vp-create 
             api-base={this.apiBase}
             onPatient-created={() => this.handlePatientCreated()}>
           </xprikryl-vp-create>
+        ) : (
+          <xprikryl-vp-detail
+            api-base={this.apiBase}
+            patient-id={this.selectedPatientId}
+            user-role={this.userRole}>
+          </xprikryl-vp-detail>
         )}
       </Host>
     );
