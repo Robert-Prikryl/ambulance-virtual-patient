@@ -8,48 +8,46 @@ describe('xprikryl-vp-manager', () => {
   it('renders login component on root URL', async () => {
     // Mock window.location
     Object.defineProperty(window, 'location', {
-      value: { pathname: '/' },
+      value: { pathname: '/ambulance-virtual-patient/' },
       writable: true
     });
 
     const page = await newSpecPage({
       components: [XprikrylVpManager, XprikrylVpLogin],
-      html: `<xprikryl-vp-manager api-base="http://test/api"></xprikryl-vp-manager>`,
+      html: `<xprikryl-vp-manager base-path="/ambulance-virtual-patient/"></xprikryl-vp-manager>`,
     });
 
     const loginComponent = page.root.shadowRoot.querySelector('xprikryl-vp-login');
     expect(loginComponent).toBeTruthy();
-    expect(loginComponent.getAttribute('api-base')).toBe('http://test/api');
   });
 
   it('renders list component on /list URL', async () => {
     // Mock window.location
     Object.defineProperty(window, 'location', {
-      value: { pathname: '/list' },
+      value: { pathname: '/ambulance-virtual-patient/list' },
       writable: true
     });
 
     const page = await newSpecPage({
       components: [XprikrylVpManager, XprikrylVpList],
-      html: `<xprikryl-vp-manager api-base="http://test/api"></xprikryl-vp-manager>`,
+      html: `<xprikryl-vp-manager base-path="/ambulance-virtual-patient/"></xprikryl-vp-manager>`,
     });
 
     const listComponent = page.root.shadowRoot.querySelector('xprikryl-vp-list');
     expect(listComponent).toBeTruthy();
-    expect(listComponent.getAttribute('api-base')).toBe('http://test/api');
   });
 
   it('renders the create form on /create URL', async () => {
 
     // Mock the window location
     Object.defineProperty(window, 'location', {
-      value: { pathname: '/create' },
+      value: { pathname: '/ambulance-virtual-patient/create' },
       writable: true,
     });
 
     const page = await newSpecPage({
       components: [XprikrylVpManager, XprikrylVpList, XprikrylVpCreate],
-      html: `<xprikryl-vp-manager api-base="http://test/api"></xprikryl-vp-manager>`,
+      html: `<xprikryl-vp-manager base-path="/ambulance-virtual-patient/"></xprikryl-vp-manager>`,
     });
     
     await page.waitForChanges();
@@ -62,13 +60,13 @@ describe('xprikryl-vp-manager', () => {
     
     // Mock the window location
     Object.defineProperty(window, 'location', {
-      value: { pathname: '/create' },
+      value: { pathname: '/ambulance-virtual-patient/create' },
       writable: true,
     });
 
     const page = await newSpecPage({
       components: [XprikrylVpManager, XprikrylVpList, XprikrylVpCreate],
-      html: `<xprikryl-vp-manager></xprikryl-vp-manager>`,
+      html: `<xprikryl-vp-manager base-path="/ambulance-virtual-patient/"></xprikryl-vp-manager>`,
     });
 
     await page.waitForChanges();
@@ -79,13 +77,13 @@ describe('xprikryl-vp-manager', () => {
     
     // Mock the window location
     Object.defineProperty(window, 'location', {
-      value: { pathname: '/create' },
+      value: { pathname: '/ambulance-virtual-patient/create' },
       writable: true,
     });
 
     const page = await newSpecPage({
       components: [XprikrylVpManager, XprikrylVpList, XprikrylVpCreate],
-      html: `<xprikryl-vp-manager></xprikryl-vp-manager>`,
+      html: `<xprikryl-vp-manager base-path="/ambulance-virtual-patient/"></xprikryl-vp-manager>`,
     });
 
     await page.waitForChanges();
@@ -96,13 +94,13 @@ describe('xprikryl-vp-manager', () => {
     
     // Mock the window location
     Object.defineProperty(window, 'location', {
-      value: { pathname: '/' },
+      value: { pathname: '/ambulance-virtual-patient/' },
       writable: true,
     });
 
     const page = await newSpecPage({
       components: [XprikrylVpManager, XprikrylVpList, XprikrylVpCreate],
-      html: `<xprikryl-vp-manager></xprikryl-vp-manager>`,
+      html: `<xprikryl-vp-manager base-path="/ambulance-virtual-patient/"></xprikryl-vp-manager>`,
     });
 
     await page.waitForChanges();

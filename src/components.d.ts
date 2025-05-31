@@ -8,20 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { VirtualPatient } from "./api/ambulance-virtual-patient";
 export { VirtualPatient } from "./api/ambulance-virtual-patient";
 export namespace Components {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
-    }
     interface XprikrylVpCreate {
         "apiBase": string;
     }
@@ -44,6 +30,7 @@ export namespace Components {
     }
     interface XprikrylVpManager {
         "apiBase": string;
+        "basePath": string;
     }
 }
 export interface XprikrylVpCreateCustomEvent<T> extends CustomEvent<T> {
@@ -63,12 +50,6 @@ export interface XprikrylVpLoginCustomEvent<T> extends CustomEvent<T> {
     target: HTMLXprikrylVpLoginElement;
 }
 declare global {
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
-    }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
-    };
     interface HTMLXprikrylVpCreateElementEventMap {
         "patient-created": VirtualPatient;
     }
@@ -93,8 +74,8 @@ declare global {
         new (): HTMLXprikrylVpDetailElement;
     };
     interface HTMLXprikrylVpDetailEditorElementEventMap {
-        "patientUpdated": any;
-        "patientDeleted": void;
+        "patient-updated": any;
+        "patient-deleted": void;
     }
     interface HTMLXprikrylVpDetailEditorElement extends Components.XprikrylVpDetailEditor, HTMLStencilElement {
         addEventListener<K extends keyof HTMLXprikrylVpDetailEditorElementEventMap>(type: K, listener: (this: HTMLXprikrylVpDetailEditorElement, ev: XprikrylVpDetailEditorCustomEvent<HTMLXprikrylVpDetailEditorElementEventMap[K]>) => any, options?: boolean | AddEventListenerOptions): void;
@@ -151,7 +132,6 @@ declare global {
         new (): HTMLXprikrylVpManagerElement;
     };
     interface HTMLElementTagNameMap {
-        "my-component": HTMLMyComponentElement;
         "xprikryl-vp-create": HTMLXprikrylVpCreateElement;
         "xprikryl-vp-detail": HTMLXprikrylVpDetailElement;
         "xprikryl-vp-detail-editor": HTMLXprikrylVpDetailEditorElement;
@@ -161,20 +141,6 @@ declare global {
     }
 }
 declare namespace LocalJSX {
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
-    }
     interface XprikrylVpCreate {
         "apiBase"?: string;
         "onPatient-created"?: (event: XprikrylVpCreateCustomEvent<VirtualPatient>) => void;
@@ -186,8 +152,8 @@ declare namespace LocalJSX {
     }
     interface XprikrylVpDetailEditor {
         "apiBase"?: string;
-        "onPatientDeleted"?: (event: XprikrylVpDetailEditorCustomEvent<void>) => void;
-        "onPatientUpdated"?: (event: XprikrylVpDetailEditorCustomEvent<any>) => void;
+        "onPatient-deleted"?: (event: XprikrylVpDetailEditorCustomEvent<void>) => void;
+        "onPatient-updated"?: (event: XprikrylVpDetailEditorCustomEvent<any>) => void;
         "patientId"?: string;
         "userRole"?: string;
     }
@@ -202,9 +168,9 @@ declare namespace LocalJSX {
     }
     interface XprikrylVpManager {
         "apiBase"?: string;
+        "basePath"?: string;
     }
     interface IntrinsicElements {
-        "my-component": MyComponent;
         "xprikryl-vp-create": XprikrylVpCreate;
         "xprikryl-vp-detail": XprikrylVpDetail;
         "xprikryl-vp-detail-editor": XprikrylVpDetailEditor;
@@ -217,7 +183,6 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
             "xprikryl-vp-create": LocalJSX.XprikrylVpCreate & JSXBase.HTMLAttributes<HTMLXprikrylVpCreateElement>;
             "xprikryl-vp-detail": LocalJSX.XprikrylVpDetail & JSXBase.HTMLAttributes<HTMLXprikrylVpDetailElement>;
             "xprikryl-vp-detail-editor": LocalJSX.XprikrylVpDetailEditor & JSXBase.HTMLAttributes<HTMLXprikrylVpDetailEditorElement>;

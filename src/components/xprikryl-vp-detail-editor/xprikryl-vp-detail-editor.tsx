@@ -12,8 +12,8 @@ export class XprikrylVpDetailEditor {
   @Prop() userRole: string;
   @State() patient: any = null;
   @State() errorMessage: string = '';
-  @Event() patientUpdated: EventEmitter<any>;
-  @Event() patientDeleted: EventEmitter<void>;
+  @Event({ eventName: "patient-updated" }) patientUpdated: EventEmitter<any>;
+  @Event({ eventName: "patient-deleted" }) patientDeleted: EventEmitter<void>;
 
   async componentWillLoad() {
     try {
@@ -53,7 +53,6 @@ export class XprikrylVpDetailEditor {
       
       this.patient = updatedPatient;
       this.patientUpdated.emit(updatedPatient);
-      window.location.href = '/list';
     } catch (err) {
       this.errorMessage = 'Failed to update patient';
       console.error(err);
@@ -73,7 +72,6 @@ export class XprikrylVpDetailEditor {
       });
       
       this.patientDeleted.emit();
-      window.location.href = '/list';
     } catch (err) {
       this.errorMessage = 'Failed to delete patient';
       console.error(err);

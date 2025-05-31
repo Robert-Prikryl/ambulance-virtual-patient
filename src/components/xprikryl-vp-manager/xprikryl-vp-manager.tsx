@@ -1,5 +1,15 @@
 import { Component, Host, Prop, State, h, Listen } from '@stencil/core';
 
+// Add Navigation API type definitions
+declare global {
+  interface Window {
+    navigation?: {
+      navigate: (url: string) => void;
+      addEventListener: (type: string, listener: (ev: Event) => void) => void;
+    };
+  }
+}
+
 @Component({
   tag: 'xprikryl-vp-manager',
   styleUrl: 'xprikryl-vp-manager.css',
@@ -7,7 +17,9 @@ import { Component, Host, Prop, State, h, Listen } from '@stencil/core';
 })
 export class XprikrylVpManager {
   @Prop() apiBase: string;
+  @Prop() basePath: string;
   @State() userRole: string | null = null;
+  @State() relativePath: string = '';
 
   componentWillLoad() {
     // Load user role from localStorage if it exists
@@ -15,6 +27,24 @@ export class XprikrylVpManager {
     if (savedRole) {
       this.userRole = savedRole;
     }
+
+    const baseUri = new URL(this.basePath, document.baseURI || "/").pathname;
+
+    const toRelative = (path: string) => {
+      if (path.startsWith(baseUri)) {
+        this.relativePath = path.slice(baseUri.length);
+      } else {
+        this.relativePath = "";
+      }
+    };
+
+    window.navigation?.addEventListener("navigate", (ev: Event) => {
+      if ((ev as any).canIntercept) { (ev as any).intercept(); }
+      let path = new URL((ev as any).destination.url).pathname;
+      toRelative(path);
+    });
+
+    toRelative(location.pathname);
   }
 
   @Listen('popstate', { target: 'window' })
@@ -22,12 +52,27 @@ export class XprikrylVpManager {
     this.handleUrlChange();
   }
 
+  private navigate(path: string) {
+    const absolute = new URL(path, new URL(this.basePath, document.baseURI)).pathname;
+    window.navigation?.navigate(absolute);
+  }
+
+  private handleBackClick() {
+    if (this.relativePath === 'list') {
+      // Special case: when on list view, go back to root
+      const baseUri = new URL(this.basePath, document.baseURI || "/").pathname;
+      window.navigation?.navigate(baseUri);
+    } else {
+      // Normal case: use browser's back navigation
+      window.history.back();
+    }
+  }
+
   private handleUrlChange() {
-    const path = window.location.pathname;
-    if (path === '/' || path === '') {
+    if (this.relativePath === '/' || this.relativePath === '') {
       // Root path - show login if no role selected
-      if (this.userRole && path !== '/') {
-        window.location.href = '/list';
+      if (this.userRole && this.relativePath !== '/') {
+        this.navigate('./list');
       }
     }
   }
@@ -35,9 +80,9 @@ export class XprikrylVpManager {
   private handleEntryClick(event: CustomEvent<string>) {
     const id = event.detail;
     if (id === "@new") {
-      window.location.href = '/create';
+      this.navigate('./create');
     } else {
-      window.location.href = `/patient/${id}`;
+      this.navigate(`./patient/${id}`);
     }
   }
 
@@ -45,22 +90,20 @@ export class XprikrylVpManager {
     this.userRole = event.detail;
     // Save role to localStorage
     localStorage.setItem('userRole', event.detail);
-    window.location.href = '/list';
+    this.navigate('./list');
   }
 
   private handlePatientUpdated() {
-    window.location.href = '/list';
+    this.navigate('./list');
   }
 
   private handlePatientDeleted() {
-    window.location.href = '/list';
+    this.navigate('./list');
   }
 
   render() {
-    const path = window.location.pathname;
-
     // Show login if no role selected
-    if (path === '/' || path === '') {
+    if (this.relativePath === '/' || this.relativePath === '') {
       return (
         <Host>
           <xprikryl-vp-login 
@@ -72,12 +115,12 @@ export class XprikrylVpManager {
     }
 
     // Show list view
-    if (path === '/list') {
+    if (this.relativePath === 'list') {
       return (
         <Host>
           <md-filled-button 
             class="back-button"
-            onClick={() => window.history.back()}>
+            onClick={() => this.handleBackClick()}>
             <md-icon slot="icon">arrow_back</md-icon>
             Back
           </md-filled-button>
@@ -91,7 +134,7 @@ export class XprikrylVpManager {
     }
 
     // Show create form
-    if (path === '/create') {
+    if (this.relativePath === 'create') {
       return (
         <Host>
           <md-filled-button 
@@ -109,8 +152,8 @@ export class XprikrylVpManager {
     }
 
     // Show patient detail/editor based on role
-    if (path.includes('/patient/')) {
-      const patientId = path.split('/patient/')[1];
+    if (this.relativePath.includes('patient/')) {
+      const patientId = this.relativePath.split('patient/')[1];
       return (
         <Host>
           <md-filled-button 
@@ -137,16 +180,5 @@ export class XprikrylVpManager {
         </Host>
       );
     }
-
-    // Fallback to list view
-    return (
-      <Host>
-        <xprikryl-vp-list 
-          api-base={this.apiBase}
-          userRole={this.userRole}
-          onEntry-clicked={(e) => this.handleEntryClick(e)}>
-        </xprikryl-vp-list>
-      </Host>
-    );
   }
 }

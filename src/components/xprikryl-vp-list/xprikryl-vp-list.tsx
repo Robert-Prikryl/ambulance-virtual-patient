@@ -17,7 +17,6 @@ export class XprikrylVpList {
   private listOfVirtualPatients: VirtualPatient[] = [];
 
   async getListOfVirtualPatients(): Promise<VirtualPatient[]> {
-    console.log("getListOfVirtualPatients", this.apiBase, this.userRole);
     try {
       const configuration = new Configuration({
         basePath: this.apiBase,
